@@ -6,7 +6,9 @@ use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
 {
-    public function setUp()
+    protected $options;
+
+    public function setUp(): void
     {
         parent::setUp();
 

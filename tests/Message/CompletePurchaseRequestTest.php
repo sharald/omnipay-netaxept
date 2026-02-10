@@ -3,6 +3,7 @@
 namespace Omnipay\Netaxept\Message;
 
 use Omnipay\Tests\TestCase;
+use Omnipay\Common\Exception\InvalidResponseException;
 
 class CompletePurchaseRequestTest extends TestCase
 {
@@ -16,7 +17,7 @@ class CompletePurchaseRequestTest extends TestCase
      */
     private $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         $client = $this->getHttpClient();
         $this->httpRequest = $this->getHttpRequest();
@@ -24,21 +25,19 @@ class CompletePurchaseRequestTest extends TestCase
         $this->request = new CompletePurchaseRequest($client, $this->httpRequest);
     }
 
-    /**
-     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
-     */
     public function testGetDataThrowsExceptionWithoutResponseCode()
     {
+        $this->expectException(InvalidResponseException::class);
+
         $this->httpRequest->query->set('transactionId', 'TRANS-123');
 
         $this->request->getData();
     }
 
-    /**
-     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
-     */
     public function testGetDataThrowsExceptionWithoutTransactionId()
     {
+        $this->expectException(InvalidResponseException::class);
+
         $this->httpRequest->query->set('responseCode', 'ABC-123');
 
         $this->request->getData();
